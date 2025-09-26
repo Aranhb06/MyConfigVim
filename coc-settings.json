@@ -64,6 +64,7 @@
     "file-java": "",
     "file-cpp": "",
     "file-php": ""
-  }
+  },
+  "snippets.ultisnips.pythonPrompt": false
 }
 

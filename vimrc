@@ -41,6 +41,11 @@ call plug#begin()
 
     " --- Autocompletado y LSP ---
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+    " --- Coleccion de snippets
+    Plug 'honza/vim-snippets'
+    Plug 'ryanoasis/vim-devicons'
+
 call plug#end()
 
 " =============================================================================
@@ -54,7 +59,7 @@ let g:airline#extensions#tabline#formatter = 'default'
 let g:airline_theme='wombat'
 
 " --- COC.NVIM ---
-let g:coc_global_extensions = ['coc-tsserver', 'coc-json', 'coc-html', 'coc-css', 'coc-pyright', 'coc-explorer', 'coc-sh']
+let g:coc_global_extensions = ['coc-tsserver', 'coc-json', 'coc-html', 'coc-css', 'coc-pyright', 'coc-explorer', 'coc-sh','coc-snippets']
 " Mappings Go To's
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -114,6 +119,7 @@ nnoremap <C-l> <C-w>l
 nnoremap <Tab> <C-w>w
 
 " Cerrar ventana, guardar, guardar + cerrar ventana
-nnoremap <space>q :q<CR>
+
+nnoremap <silent> <space>q :q<CR>
 nnoremap <silent> <space>w :w<CR>
 nnoremap <silent> <space>x :wq<CR>
