@@ -42,7 +42,7 @@ call plug#begin()
     " --- Autocompletado y LSP ---
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-    " --- Coleccion de snippets
+    " --- Coleccion de snippets ---
     Plug 'honza/vim-snippets'
     Plug 'ryanoasis/vim-devicons'
 
