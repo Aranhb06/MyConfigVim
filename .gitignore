@@ -1,0 +1,11 @@
+#Ignorar el directorio de plugins gestionado por Vim-PLug
+plugged/
+
+# Ignorar el directorio autoload, que contiene plug.vi
+autoload/
+
+# Ignorar archivos temporales y de respaldo de Vim
+*.swo
+*.swo
+*~
+*.un~
