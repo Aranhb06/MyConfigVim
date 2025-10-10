@@ -42,9 +42,14 @@ call plug#begin()
     " --- Autocompletado y LSP ---
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+    " ---- Plugin apra visualizar markdown ----
+    Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install' }
+    
+    " --- Plugin para ejecutar comando de forma asincrona --
+    Plug 'skywind3000/asyncrun.vim'
+
     " --- Coleccion de snippets ---
     Plug 'honza/vim-snippets'
-    Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
 
@@ -107,6 +112,19 @@ endfunction
 nnoremap <silent> <space>e :CocCommand explorer<CR>
 
 " =============================================================================
+"  CONFIGURACIÓN DE MARKDOWN-PREVIEW.NVIM
+" =============================================================================
+" 1. Habilita edicion de markdown
+let g:mkdp_filetypes = ['markdown']
+
+" 2. Habilita la actualización instantánea mientras escribes, sin necesidad de guardar.
+let g:mkdp_refresh_on_text_changed = 1
+
+" 3. (Opcional pero recomendado) Cierra automáticamente la ventana de vista previa
+"    cuando cambias a un buffer que no sea Markdown.
+let g:mkdp_auto_close = 1
+
+" =============================================================================
 "  MAPPINGS GENERALES
 " =============================================================================
 " Moverse entre ventanas con Ctrl + (h, j, k, l)
@@ -123,3 +141,35 @@ nnoremap <Tab> <C-w>w
 nnoremap <silent> <space>q :q<CR>
 nnoremap <silent> <space>w :w<CR>
 nnoremap <silent> <space>x :wq<CR>
+
+" =============================================================================
+"  VISTA PREVIA INTELIGENTE (F5)
+" =============================================================================
+
+" 1. LA FUNCIÓN QUE DECIDE QUÉ HACER
+" -----------------------------------------------------------------------------
+function! SmartPreview()
+    " Comprueba el tipo de archivo (&filetype) del buffer actual
+    if &filetype == 'markdown'
+        " Si es Markdown, alterna la vista previa instantánea 'mientras escribes'
+        execute 'MarkdownPreviewToggle'
+
+    elseif &filetype == 'html'
+        " Si es HTML, ejecuta live-server en segundo plano para una vista
+        " previa de desarrollo web que se actualiza 'al guardar'
+        execute 'AsyncRun -cwd=%:h live-server %:t'
+
+    else
+        " Si es cualquier otro tipo de archivo, informa al usuario que no hay acción
+        echo "No hay acción de vista previa definida para el tipo de archivo:" &filetype
+    endif
+endfunction
+
+
+" 2. LOS ATAJOS DE TECLADO
+" -----------------------------------------------------------------------------
+" Con F5, llama a la función inteligente que hemos creado
+nnoremap <silent> <F5> :call SmartPreview()<CR>
+
+" Con Shift+F5, detiene el proceso en segundo plano (el live-server)
+nnoremap <silent> <S-F5> :AsyncStop<CR>
