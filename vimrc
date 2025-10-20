@@ -1,6 +1,9 @@
 " =============================================================================
 "  CONFIGURACIONES ESENCIALES
 " =============================================================================
+" --- LÍDER (Usa la barra espaciadora) ---
+let mapleader = ' '
+
 " --- CODIFICACIÓN (SOLUCIÓN PRINCIPAL) ---
 " Esto le dice a Vim que use UTF-8, permitiendo que muestre los íconos.
 set encoding=utf-8
@@ -17,11 +20,17 @@ syntax on
 " --- Colores y UI ---
 " Usa colores 24-bit (True Color)
 set termguicolors
+set background=dark " Informa a Vim que el fondo es oscuro
+
+" --- CONFIGURACIÓN DEL TEMA MOONFLY ---
+" Activa el fondo transparente ANTES de cargar el tema.
+let g:moonflyTransparent = 1
+
 highlight Pmenu      guibg=#3a3a3a guifg=#ffffff
 highlight PmenuSel   guibg=#5f87ff guifg=#000000
 highlight PmenuSbar  guibg=#444444
 highlight PmenuThumb guibg=#bbbbbb
-highlight VertSplit guibg=#3a3a3a guifg=#444444
+highlight VertSplit guibg=NONE guifg=#444444
 
 " =============================================================================
 "  VIM-PLUG Y PLUGINS
@@ -33,18 +42,21 @@ call plug#begin()
     " --- Barra de Estado y Temas ---
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
+    Plug 'bluz71/vim-moonfly-colors'
 
     " --- Utilidades ---
     Plug 'jiangmiao/auto-pairs'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
+    Plug 'tpope/vim-fugitive'
+    Plug 'tpope/vim-commentary'
 
     " --- Autocompletado y LSP ---
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-    " ---- Plugin apra visualizar markdown ----
+    " ---- Plugin para visualizar markdown ----
     Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install' }
-    
+
     " --- Plugin para ejecutar comando de forma asincrona --
     Plug 'skywind3000/asyncrun.vim'
 
@@ -54,6 +66,20 @@ call plug#begin()
 call plug#end()
 
 " =============================================================================
+"  APLICAR TEMA Y AJUSTES DE COLOR
+" =============================================================================
+" 1. Se carga el tema de color.
+colorscheme moonfly
+
+" 2. Se sobrescriben los colores de la numeración para que sea transparente y resalte.
+"    Esto debe ir SIEMPRE DESPUÉS de 'colorscheme'.
+highlight LineNr       guibg=NONE guifg=#888888
+highlight CursorLineNr guibg=NONE guifg=#dcdcaa gui=bold
+
+" 3. Poner los comentarios (notas) en cursiva.
+highlight Comment gui=italic
+
+" =============================================================================
 "  CONFIGURACIÓN DE PLUGINS
 " =============================================================================
 " --- VIM-AIRLINE ---
@@ -61,7 +87,7 @@ call plug#end()
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'default'
-let g:airline_theme='wombat'
+let g:airline_theme='moonfly'
 
 " --- COC.NVIM ---
 let g:coc_global_extensions = ['coc-tsserver', 'coc-json', 'coc-html', 'coc-css', 'coc-pyright', 'coc-explorer', 'coc-sh','coc-snippets']
@@ -109,7 +135,7 @@ function! ShowDocumentation()
 endfunction
 
 " Configuracion de coc-explorer
-nnoremap <silent> <space>e :CocCommand explorer<CR>
+nnoremap <silent> <leader>e :CocCommand explorer<CR>
 
 " =============================================================================
 "  CONFIGURACIÓN DE MARKDOWN-PREVIEW.NVIM
@@ -127,20 +153,26 @@ let g:mkdp_auto_close = 1
 " =============================================================================
 "  MAPPINGS GENERALES
 " =============================================================================
-" Moverse entre ventanas con Ctrl + (h, j, k, l)
+" --- NAVEGACIÓN DE VENTANAS ---
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
-
-" Alternar entre ventanas con <Tab>
 nnoremap <Tab> <C-w>w
 
-" Cerrar ventana, guardar, guardar + cerrar ventana
+" --- GESTIÓN DE FICHEROS ---
+nnoremap <silent> <leader>q :q<CR>
+nnoremap <silent> <leader>w :w<CR>
+nnoremap <silent> <leader>x :wq<CR>
 
-nnoremap <silent> <space>q :q<CR>
-nnoremap <silent> <space>w :w<CR>
-nnoremap <silent> <space>x :wq<CR>
+" --- FZF (FUZZY FINDER) ---
+nnoremap <C-p> :Files<CR>
+nnoremap <C-b> :Buffers<CR>
+" Para :Rg necesitas tener ripgrep instalado
+nnoremap <C-f> :Rg<CR>
+
+" --- VIM-FUGITIVE (GIT) ---
+nnoremap <silent> <leader>gs :Gstatus<CR>
 
 " =============================================================================
 "  VISTA PREVIA INTELIGENTE (F5)
@@ -155,16 +187,17 @@ function! SmartPreview()
         execute 'MarkdownPreviewToggle'
 
     elseif &filetype == 'html'
-        " Si es HTML, ejecuta live-server en segundo plano para una vista
-        " previa de desarrollo web que se actualiza 'al guardar'
-        execute 'AsyncRun -cwd=%:h live-server %:t'
+        " *** CORRECCIÓN ***
+        " Sirve todo el directorio actual (-cwd=%:h) para que encuentre los
+        " archivos CSS/JS, pero gracias a '--open=%:t', abre en el navegador
+        " el archivo HTML específico que estamos editando.
+        execute 'AsyncRun -cwd=%:h live-server --open=%:t'
 
     else
         " Si es cualquier otro tipo de archivo, informa al usuario que no hay acción
         echo "No hay acción de vista previa definida para el tipo de archivo:" &filetype
     endif
 endfunction
-
 
 " 2. LOS ATAJOS DE TECLADO
 " -----------------------------------------------------------------------------
