@@ -1,4 +1,5 @@
 {
+  "colors.enable": true,
   "coc.preferences.jumpCommand": "tab drop",
   "diagnostic.enableMessage": "never",
   "diagnostic.virtualText": true,

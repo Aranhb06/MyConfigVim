@@ -4,8 +4,7 @@
 " --- LÍDER (Usa la barra espaciadora) ---
 let mapleader = ' '
 
-" --- CODIFICACIÓN (SOLUCIÓN PRINCIPAL) ---
-" Esto le dice a Vim que use UTF-8, permitiendo que muestre los íconos.
+" --- CODIFICACIÓN ---
 set encoding=utf-8
 
 " --- Configuraciones Generales ---
@@ -20,7 +19,7 @@ syntax on
 " --- Colores y UI ---
 " Usa colores 24-bit (True Color)
 set termguicolors
-set background=dark " Informa a Vim que el fondo es oscuro
+set background=dark 
 
 " --- CONFIGURACIÓN DEL TEMA MOONFLY ---
 " Activa el fondo transparente ANTES de cargar el tema.
@@ -68,11 +67,10 @@ call plug#end()
 " =============================================================================
 "  APLICAR TEMA Y AJUSTES DE COLOR
 " =============================================================================
-" 1. Se carga el tema de color.
+"1. Se carga el tema de color.
 colorscheme moonfly
 
 " 2. Se sobrescriben los colores de la numeración para que sea transparente y resalte.
-"    Esto debe ir SIEMPRE DESPUÉS de 'colorscheme'.
 highlight LineNr       guibg=NONE guifg=#888888
 highlight CursorLineNr guibg=NONE guifg=#dcdcaa gui=bold
 
@@ -83,14 +81,13 @@ highlight Comment gui=italic
 "  CONFIGURACIÓN DE PLUGINS
 " =============================================================================
 " --- VIM-AIRLINE ---
-" Habilita el uso de Nerd Fonts en la barra de estado (SOLUCIÓN #2)
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'default'
 let g:airline_theme='moonfly'
 
 " --- COC.NVIM ---
-let g:coc_global_extensions = ['coc-tsserver', 'coc-json', 'coc-html', 'coc-css', 'coc-pyright', 'coc-explorer', 'coc-sh','coc-snippets']
+let g:coc_global_extensions = ['coc-tsserver', 'coc-json', 'coc-html', 'coc-css', 'coc-pyright', 'coc-explorer', 'coc-sh','coc-snippets', 'coc-highlight']
 " Mappings Go To's
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -111,15 +108,15 @@ else
   inoremap <silent><expr> <c-@> coc#refresh()
 endif
 
-" Mappings Diagnostics
+" Mapeo de teclas para diagnosticos 
 nnoremap <silent> d[ <Plug>(coc-diagnostic-prev)
 nnoremap <silent> d] <Plug>(coc-diagnostic-next)
 
-" Mappings Hover Documentation
+" Mapeo de teclas para ver la documentacion 
 nnoremap <silent> K :call ShowDocumentation()<CR>
 
 " Mappings Code Actions
-nnoremap ga <Plug>(coc-codeaction-cursor)
+" nnoremap ga <Plug>(coc-codeaction-cursor)
 
 function! CheckBackspace() abort
   let col = col('.') - 1
@@ -146,8 +143,7 @@ let g:mkdp_filetypes = ['markdown']
 " 2. Habilita la actualización instantánea mientras escribes, sin necesidad de guardar.
 let g:mkdp_refresh_on_text_changed = 1
 
-" 3. (Opcional pero recomendado) Cierra automáticamente la ventana de vista previa
-"    cuando cambias a un buffer que no sea Markdown.
+" 3. Cierra automáticamente la ventana de vista previa cuando cambias a un buffer que no sea Markdown.
 let g:mkdp_auto_close = 1
 
 " =============================================================================
@@ -158,7 +154,16 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
-nnoremap <Tab> <C-w>w
+
+" --- REDIMENSIONAR VENTANAS ---
+nnoremap <silent> <C-Left> :vertical resize -5<CR>   " Estrechar (mover borde a izquierda)
+nnoremap <silent> <C-Right> :vertical resize +5<CR>  " Ensanchar (mover borde a derecha)
+nnoremap <silent> <C-Up> :resize +2<CR>     " Más alta
+nnoremap <silent> <C-Down> :resize -2<CR>   " Más baja
+
+" --- ROTAR VENTANA A HORIZONTAL Y VERTICAL
+nnoremap <silent> <leader><Up>  <C-w>K
+nnoremap <silent> <leader><Left> <C-w>H
 
 " --- GESTIÓN DE FICHEROS ---
 nnoremap <silent> <leader>q :q<CR>
@@ -168,8 +173,8 @@ nnoremap <silent> <leader>x :wq<CR>
 " --- FZF (FUZZY FINDER) ---
 nnoremap <C-p> :Files<CR>
 nnoremap <C-b> :Buffers<CR>
-" Para :Rg necesitas tener ripgrep instalado
 nnoremap <C-f> :Rg<CR>
+nnoremap <silent> <leader>l :Lines<CR>
 
 " --- VIM-FUGITIVE (GIT) ---
 nnoremap <silent> <leader>gs :Gstatus<CR>
