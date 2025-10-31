@@ -1,10 +1,10 @@
 " =============================================================================
 "  CONFIGURACIONES ESENCIALES
 " =============================================================================
-" --- LÍDER (Usa la barra espaciadora) ---
+" --- Tecla lider ---
 let mapleader = ' '
 
-" --- CODIFICACIÓN ---
+" --- Codificacion ---
 set encoding=utf-8
 
 " --- Configuraciones Generales ---
@@ -21,8 +21,7 @@ syntax on
 set termguicolors
 set background=dark 
 
-" --- CONFIGURACIÓN DEL TEMA MOONFLY ---
-" Activa el fondo transparente ANTES de cargar el tema.
+" --- Configuracion del tema ---
 let g:moonflyTransparent = 1
 
 highlight Pmenu      guibg=#3a3a3a guifg=#ffffff
@@ -59,6 +58,9 @@ call plug#begin()
     " --- Plugin para ejecutar comando de forma asincrona --
     Plug 'skywind3000/asyncrun.vim'
 
+    " --- Plugin para terminal
+    Plug 'voldikss/vim-floaterm'
+
     " --- Coleccion de snippets ---
     Plug 'honza/vim-snippets'
 
@@ -67,10 +69,10 @@ call plug#end()
 " =============================================================================
 "  APLICAR TEMA Y AJUSTES DE COLOR
 " =============================================================================
-"1. Se carga el tema de color.
+"1. Carga el tema de color.
 colorscheme moonfly
 
-" 2. Se sobrescriben los colores de la numeración para que sea transparente y resalte.
+" 2. Colores de la numeración para que sea transparente y resalte.
 highlight LineNr       guibg=NONE guifg=#888888
 highlight CursorLineNr guibg=NONE guifg=#dcdcaa gui=bold
 
@@ -134,17 +136,6 @@ endfunction
 " Configuracion de coc-explorer
 nnoremap <silent> <leader>e :CocCommand explorer<CR>
 
-" =============================================================================
-"  CONFIGURACIÓN DE MARKDOWN-PREVIEW.NVIM
-" =============================================================================
-" 1. Habilita edicion de markdown
-let g:mkdp_filetypes = ['markdown']
-
-" 2. Habilita la actualización instantánea mientras escribes, sin necesidad de guardar.
-let g:mkdp_refresh_on_text_changed = 1
-
-" 3. Cierra automáticamente la ventana de vista previa cuando cambias a un buffer que no sea Markdown.
-let g:mkdp_auto_close = 1
 
 " =============================================================================
 "  MAPPINGS GENERALES
@@ -176,8 +167,48 @@ nnoremap <C-b> :Buffers<CR>
 nnoremap <C-f> :Rg<CR>
 nnoremap <silent> <leader>l :Lines<CR>
 
+" --- TERMINAL ---
+" Matar la terminal actual
+function! KillAndShowNext()
+    let total_terminals = len(floaterm#buflist#gather())
+    FloatermKill
+    if total_terminals > 1
+        FloatermToggle
+    endif
+endfunction
+
+" Asignación de atajos de teclado (Keymaps)
+
+" 1. <Leader>t: MUESTRA / OCULTA la terminal. Si no existe, CREA LA PRIMERA.
+let g:floaterm_keymap_toggle = '<Leader>t'
+tnoremap <silent> <Leader>t <C-\><C-n>:FloatermToggle<CR>
+
+" 2. Ctrl+t: CREA SIEMPRE una nueva terminal.
+nnoremap <silent> <C-t> :FloatermNew<CR>
+tnoremap <silent> <C-t> <C-\><C-n>:FloatermNew<CR>
+
+" 3. NAVEGAR entre terminales (SOLO DENTRO DE FLOATERM)
+tnoremap <silent> <C-j> <C-\><C-n>:FloatermNext<CR>
+tnoremap <silent> <C-k> <C-\><C-n>:FloatermPrev<CR>
+
+" 4. Ctrl+Shift+t: CIERRE INTELIGENTE CONTEXTUAL
+nnoremap <silent> rt :FloatermKill!<CR>
+tnoremap <silent> rt <C-\><C-n>:call KillAndShowNext()<CR>
+
 " --- VIM-FUGITIVE (GIT) ---
 nnoremap <silent> <leader>gs :Gstatus<CR>
+
+" =============================================================================
+"  CONFIGURACIÓN DE MARKDOWN-PREVIEW.NVIM
+" =============================================================================
+" 1. Habilita edicion de markdown
+let g:mkdp_filetypes = ['markdown']
+
+" 2. Habilita la actualización instantánea mientras escribes, sin necesidad de guardar.
+let g:mkdp_refresh_on_text_changed = 1
+
+" 3. Cierra automáticamente la ventana de vista previa cuando cambias a un buffer que no sea Markdown.
+let g:mkdp_auto_close = 1
 
 " =============================================================================
 "  VISTA PREVIA INTELIGENTE (F5)
