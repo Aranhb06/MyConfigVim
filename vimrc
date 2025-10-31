@@ -89,7 +89,18 @@ let g:airline#extensions#tabline#formatter = 'default'
 let g:airline_theme='moonfly'
 
 " --- COC.NVIM ---
-let g:coc_global_extensions = ['coc-tsserver', 'coc-json', 'coc-html', 'coc-css', 'coc-pyright', 'coc-explorer', 'coc-sh','coc-snippets', 'coc-highlight']
+let g:coc_global_extensions = [
+        \ 'coc-tsserver', 
+        \ 'coc-json', 
+        \ 'coc-html', 
+        \ 'coc-css', 
+        \ 'coc-pyright', 
+        \ 'coc-explorer', 
+        \ 'coc-sh', 
+        \ 'coc-snippets', 
+        \ 'coc-highlight',
+        \ ]
+
 " Mappings Go To's
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -136,6 +147,17 @@ endfunction
 " Configuracion de coc-explorer
 nnoremap <silent> <leader>e :CocCommand explorer<CR>
 
+" --- FLOATERM ---
+let g:floaterm_title = 'TERMINAL $1/$2'
+let g:floaterm_rootmarkers = [
+        \ '.git',
+        \ '.hg',
+        \ '.svn',
+        \ 'package.json',
+        \ 'pyproject.toml',
+        \ 'Cargo.toml',
+        \ '.root',
+        \ ]
 
 " =============================================================================
 "  MAPPINGS GENERALES
@@ -168,7 +190,7 @@ nnoremap <C-f> :Rg<CR>
 nnoremap <silent> <leader>l :Lines<CR>
 
 " --- TERMINAL ---
-" Matar la terminal actual
+" Funcion matar la terminal
 function! KillAndShowNext()
     let total_terminals = len(floaterm#buflist#gather())
     FloatermKill
@@ -177,26 +199,21 @@ function! KillAndShowNext()
     endif
 endfunction
 
-" Asignación de atajos de teclado (Keymaps)
-
-" 1. <Leader>t: MUESTRA / OCULTA la terminal. Si no existe, CREA LA PRIMERA.
+" Atajo <Leader>t: MUESTRA / OCULTA la terminal. Si no existe, CREA LA PRIMERA.
 let g:floaterm_keymap_toggle = '<Leader>t'
-tnoremap <silent> <Leader>t <C-\><C-n>:FloatermToggle<CR>
+tnoremap <silent> <Leader>t <C-\><C-n>:FloatermToggle --cwd=<buffer-root><CR>
 
-" 2. Ctrl+t: CREA SIEMPRE una nueva terminal.
-nnoremap <silent> <C-t> :FloatermNew<CR>
-tnoremap <silent> <C-t> <C-\><C-n>:FloatermNew<CR>
+" Atajo Ctrl+t: CREA una nueva terminal en la RAÍZ DEL PROYECTO DEL ARCHIVO ACTUAL.
+nnoremap <silent> <C-t> :FloatermNew --cwd=<buffer-root><CR>
+tnoremap <silent> <C-t> <C-\><C-n>:FloatermNew --cwd=<buffer-root><CR>
 
-" 3. NAVEGAR entre terminales (SOLO DENTRO DE FLOATERM)
+"Atajos Ctrl+j/k: NAVEGAR entre terminales (SOLO DENTRO DE FLOATERM).
 tnoremap <silent> <C-j> <C-\><C-n>:FloatermNext<CR>
 tnoremap <silent> <C-k> <C-\><C-n>:FloatermPrev<CR>
 
-" 4. Ctrl+Shift+t: CIERRE INTELIGENTE CONTEXTUAL
+" Atajo 'rt': CIERRE INTELIGENTE CONTEXTUAL (remove terminal).
 nnoremap <silent> rt :FloatermKill!<CR>
 tnoremap <silent> rt <C-\><C-n>:call KillAndShowNext()<CR>
-
-" --- VIM-FUGITIVE (GIT) ---
-nnoremap <silent> <leader>gs :Gstatus<CR>
 
 " =============================================================================
 "  CONFIGURACIÓN DE MARKDOWN-PREVIEW.NVIM
@@ -217,20 +234,13 @@ let g:mkdp_auto_close = 1
 " 1. LA FUNCIÓN QUE DECIDE QUÉ HACER
 " -----------------------------------------------------------------------------
 function! SmartPreview()
-    " Comprueba el tipo de archivo (&filetype) del buffer actual
     if &filetype == 'markdown'
-        " Si es Markdown, alterna la vista previa instantánea 'mientras escribes'
         execute 'MarkdownPreviewToggle'
 
     elseif &filetype == 'html'
-        " *** CORRECCIÓN ***
-        " Sirve todo el directorio actual (-cwd=%:h) para que encuentre los
-        " archivos CSS/JS, pero gracias a '--open=%:t', abre en el navegador
-        " el archivo HTML específico que estamos editando.
         execute 'AsyncRun -cwd=%:h live-server --open=%:t'
 
     else
-        " Si es cualquier otro tipo de archivo, informa al usuario que no hay acción
         echo "No hay acción de vista previa definida para el tipo de archivo:" &filetype
     endif
 endfunction

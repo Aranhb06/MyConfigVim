@@ -14,7 +14,7 @@
 Clona este repositorio y renómbralo a `.vim`:
 
 ```bash
-git clone https://github.com/Aranhb06/MyConfigVim.git ~ && mv ~/MyConfigVim ~/.vim
+git clone https://github.com/Aranhb06/MyConfigVim.git ~/.vim
 ```
 
 ---
