@@ -5,6 +5,8 @@ plugged/
 autoload/
 
 # Ignorar archivos temporales y de respaldo de Vim
+.netrwhist
+*.swp
 *.swo
 *.swo
 *~
