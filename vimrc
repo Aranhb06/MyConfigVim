@@ -1,45 +1,16 @@
 " =============================================================================
-"  CONFIGURACIONES ESENCIALES
+"  PLUGINS
 " =============================================================================
-" --- Tecla lider ---
-let mapleader = ' '
 
-" --- Codificacion ---
-set encoding=utf-8
-
-" --- Configuraciones Generales ---
-set nu
-set rnu
-set showmode
-set autoindent
-set tabstop=4
-set expandtab
-syntax on
-
-" --- Colores y UI ---
-" Usa colores 24-bit (True Color)
-set termguicolors
-set background=dark 
-
-" --- Configuracion del tema ---
-let g:moonflyTransparent = 1
-
-highlight Pmenu      guibg=#3a3a3a guifg=#ffffff
-highlight PmenuSel   guibg=#5f87ff guifg=#000000
-highlight PmenuSbar  guibg=#444444
-highlight PmenuThumb guibg=#bbbbbb
-highlight VertSplit guibg=NONE guifg=#444444
-
-" =============================================================================
-"  VIM-PLUG Y PLUGINS
-" =============================================================================
 call plug#begin()
-    " --- ÍCONOS (Cárgalo primero para que otros plugins los usen) ---
-    Plug 'ryanoasis/vim-devicons'
 
     " --- Barra de Estado y Temas ---
+    " ~Iconos 
+    Plug 'ryanoasis/vim-devicons'
+    " Barra de estado
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
+    " Tema
     Plug 'bluz71/vim-moonfly-colors'
 
     " --- Utilidades ---
@@ -66,29 +37,69 @@ call plug#begin()
 
 call plug#end()
 
-" =============================================================================
-"  APLICAR TEMA Y AJUSTES DE COLOR
-" =============================================================================
-"1. Carga el tema de color.
-colorscheme moonfly
 
-" 2. Colores de la numeración para que sea transparente y resalte.
+" =============================================================================
+"  CONFIGURACIONES ESENCIALES
+" =============================================================================
+
+" --- Configuraciones Generales ---
+" Tecla lider
+let mapleader = ' ' 
+
+" Codificacion
+set encoding=utf-8
+
+" Otras configuraciones
+set nu
+set rnu
+set showmode
+set autoindent
+set tabstop=4
+set expandtab
+syntax on
+
+" --- Configuraciones (Colores y UI) ---
+" Configuraciones del tema
+let g:moonflyTransparent = 1
+colorscheme moonfly
 highlight LineNr       guibg=NONE guifg=#888888
 highlight CursorLineNr guibg=NONE guifg=#dcdcaa gui=bold
 
-" 3. Poner los comentarios (notas) en cursiva.
-highlight Comment gui=italic
-
-" =============================================================================
-"  CONFIGURACIÓN DE PLUGINS
-" =============================================================================
-" --- VIM-AIRLINE ---
+" Configuraciones de la barra de estado (vim-airline)
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'default'
 let g:airline_theme='moonfly'
 
-" --- COC.NVIM ---
+" --- Mappings Generales ---
+" Navegacion entre ventanas
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" Redimensionar ventanas 
+nnoremap <silent> <C-Left> :vertical resize -5<CR>   " Estrechar (mover borde a izquierda)
+nnoremap <silent> <C-Right> :vertical resize +5<CR>  " Ensanchar (mover borde a derecha)
+nnoremap <silent> <C-Up> :resize +2<CR>     " Más alta
+nnoremap <silent> <C-Down> :resize -2<CR>   " Más baja
+
+" Rotar ventana 
+nnoremap <silent> <leader><Up>  <C-w>K
+nnoremap <silent> <leader><Left> <C-w>H
+
+" Gestion del fichero 
+nnoremap <silent> <leader>q :q<CR>
+nnoremap <silent> <leader>w :w<CR>
+nnoremap <silent> <leader>x :wq<CR>
+
+
+" =============================================================================
+"  CONFIGURACIONES EXTENDIAD
+" =============================================================================
+
+" --- Configuraciones COC ---
+" Lista de extensiones de coc
 let g:coc_global_extensions = [
         \ 'coc-tsserver', 
         \ 'coc-json', 
@@ -100,14 +111,14 @@ let g:coc_global_extensions = [
         \ 'coc-snippets', 
         \ 'coc-highlight',
         \ ]
-
+ 
 " Mappings Go To's
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gR <Plug>(coc-references)
 
-" Mappings Completion
+" Mapeo para completar pulso visibles 
 inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 inoremap <silent><expr> <TAB>
       \ coc#pum#visible() ? coc#pum#next(1) :
@@ -115,11 +126,7 @@ inoremap <silent><expr> <TAB>
       \ coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-@> coc#refresh()
-endif
+noremap <silent><expr> <c-space> coc#refresh()
 
 " Mapeo de teclas para diagnosticos 
 nnoremap <silent> d[ <Plug>(coc-diagnostic-prev)
@@ -130,7 +137,6 @@ nnoremap <silent> K :call ShowDocumentation()<CR>
 
 " Mappings Code Actions
 " nnoremap ga <Plug>(coc-codeaction-cursor)
-
 function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
@@ -144,10 +150,31 @@ function! ShowDocumentation()
   endif
 endfunction
 
-" Configuracion de coc-explorer
+" Coc explorer 
 nnoremap <silent> <leader>e :CocCommand explorer<CR>
 
-" --- FLOATERM ---
+" --- Configuraciones de FZF ---
+
+nnoremap <silent> <leader>l :Lines<CR>
+nnoremap <silent> <leader>f :Files<CR>
+nnoremap <silent> <leader>b :Buffers<CR>
+nnoremap <silent> <leader>h :History<CR>
+nnoremap <silent> <leader>c :Commands<CR>
+nnoremap <silent> <leader>m :Marks<CR>
+nnoremap <silent> <leader> :Rg<CR>
+
+" --- Configuraciones Markdown preview ---
+" Edicion de markdown
+let g:mkdp_filetypes = ['markdown']
+
+" Habilita la actualización instantánea mientras escribes, sin necesidad de guardar.
+let g:mkdp_refresh_on_text_changed = 1
+
+" Cierra automáticamente la ventana de vista previa cuando cambias a un buffer que no sea Markdown.
+let g:mkdp_auto_close = 1
+
+" --- Configuracioens de FLOATERM ---
+" Configuraciones generales
 let g:floaterm_title = 'TERMINAL $1/$2'
 let g:floaterm_rootmarkers = [
         \ '.git',
@@ -159,38 +186,7 @@ let g:floaterm_rootmarkers = [
         \ '.root',
         \ ]
 
-" =============================================================================
-"  MAPPINGS GENERALES
-" =============================================================================
-" --- NAVEGACIÓN DE VENTANAS ---
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-
-" --- REDIMENSIONAR VENTANAS ---
-nnoremap <silent> <C-Left> :vertical resize -5<CR>   " Estrechar (mover borde a izquierda)
-nnoremap <silent> <C-Right> :vertical resize +5<CR>  " Ensanchar (mover borde a derecha)
-nnoremap <silent> <C-Up> :resize +2<CR>     " Más alta
-nnoremap <silent> <C-Down> :resize -2<CR>   " Más baja
-
-" --- ROTAR VENTANA A HORIZONTAL Y VERTICAL
-nnoremap <silent> <leader><Up>  <C-w>K
-nnoremap <silent> <leader><Left> <C-w>H
-
-" --- GESTIÓN DE FICHEROS ---
-nnoremap <silent> <leader>q :q<CR>
-nnoremap <silent> <leader>w :w<CR>
-nnoremap <silent> <leader>x :wq<CR>
-
-" --- FZF (FUZZY FINDER) ---
-nnoremap <C-p> :Files<CR>
-nnoremap <C-b> :Buffers<CR>
-nnoremap <C-f> :Rg<CR>
-nnoremap <silent> <leader>l :Lines<CR>
-
-" --- TERMINAL ---
-" Funcion matar la terminal
+" Mappings
 function! KillAndShowNext()
     let total_terminals = len(floaterm#buflist#gather())
     FloatermKill
@@ -199,40 +195,19 @@ function! KillAndShowNext()
     endif
 endfunction
 
-" Atajo <Leader>t: MUESTRA / OCULTA la terminal. Si no existe, CREA LA PRIMERA.
 let g:floaterm_keymap_toggle = '<Leader>t'
 tnoremap <silent> <Leader>t <C-\><C-n>:FloatermToggle --cwd=<buffer-root><CR>
-
-" Atajo Ctrl+t: CREA una nueva terminal en la RAÍZ DEL PROYECTO DEL ARCHIVO ACTUAL.
 nnoremap <silent> <C-t> :FloatermNew --cwd=<buffer-root><CR>
 tnoremap <silent> <C-t> <C-\><C-n>:FloatermNew --cwd=<buffer-root><CR>
-
-"Atajos Ctrl+j/k: NAVEGAR entre terminales (SOLO DENTRO DE FLOATERM).
 tnoremap <silent> <C-j> <C-\><C-n>:FloatermNext<CR>
 tnoremap <silent> <C-k> <C-\><C-n>:FloatermPrev<CR>
-
-" Atajo 'rt': CIERRE INTELIGENTE CONTEXTUAL (remove terminal).
 nnoremap <silent> rt :FloatermKill!<CR>
 tnoremap <silent> rt <C-\><C-n>:call KillAndShowNext()<CR>
 
-" =============================================================================
-"  CONFIGURACIÓN DE MARKDOWN-PREVIEW.NVIM
-" =============================================================================
-" 1. Habilita edicion de markdown
-let g:mkdp_filetypes = ['markdown']
-
-" 2. Habilita la actualización instantánea mientras escribes, sin necesidad de guardar.
-let g:mkdp_refresh_on_text_changed = 1
-
-" 3. Cierra automáticamente la ventana de vista previa cuando cambias a un buffer que no sea Markdown.
-let g:mkdp_auto_close = 1
 
 " =============================================================================
 "  VISTA PREVIA INTELIGENTE (F5)
 " =============================================================================
-
-" 1. LA FUNCIÓN QUE DECIDE QUÉ HACER
-" -----------------------------------------------------------------------------
 function! SmartPreview()
     if &filetype == 'markdown'
         execute 'MarkdownPreviewToggle'
@@ -245,8 +220,6 @@ function! SmartPreview()
     endif
 endfunction
 
-" 2. LOS ATAJOS DE TECLADO
-" -----------------------------------------------------------------------------
 " Con F5, llama a la función inteligente que hemos creado
 nnoremap <silent> <F5> :call SmartPreview()<CR>
 
