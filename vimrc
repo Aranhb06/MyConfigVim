@@ -154,24 +154,13 @@ endfunction
 nnoremap <silent> <leader>e :CocCommand explorer<CR>
 
 " --- Configuraciones de FZF ---
-
 nnoremap <silent> <leader>l :Lines<CR>
 nnoremap <silent> <leader>f :Files<CR>
 nnoremap <silent> <leader>b :Buffers<CR>
 nnoremap <silent> <leader>h :History<CR>
 nnoremap <silent> <leader>c :Commands<CR>
 nnoremap <silent> <leader>m :Marks<CR>
-nnoremap <silent> <leader> :Rg<CR>
-
-" --- Configuraciones Markdown preview ---
-" Edicion de markdown
-let g:mkdp_filetypes = ['markdown']
-
-" Habilita la actualización instantánea mientras escribes, sin necesidad de guardar.
-let g:mkdp_refresh_on_text_changed = 1
-
-" Cierra automáticamente la ventana de vista previa cuando cambias a un buffer que no sea Markdown.
-let g:mkdp_auto_close = 1
+nnoremap <silent> rg  :Rg<CR>
 
 " --- Configuracioens de FLOATERM ---
 " Configuraciones generales
@@ -204,6 +193,16 @@ tnoremap <silent> <C-k> <C-\><C-n>:FloatermPrev<CR>
 nnoremap <silent> rt :FloatermKill!<CR>
 tnoremap <silent> rt <C-\><C-n>:call KillAndShowNext()<CR>
 
+" --- Configuraciones Markdown preview ---
+" Edicion de markdown
+let g:mkdp_filetypes = ['markdown']
+
+" Habilita la actualización instantánea mientras escribes, sin necesidad de guardar.
+let g:mkdp_refresh_on_text_changed = 1
+
+" Cierra automáticamente la ventana de vista previa cuando cambias a un buffer que no sea Markdown.
+let g:mkdp_auto_close = 1
+
 
 " =============================================================================
 "  VISTA PREVIA INTELIGENTE (F5)
@@ -217,6 +216,7 @@ function! SmartPreview()
 
     else
         echo "No hay acción de vista previa definida para el tipo de archivo:" &filetype
+
     endif
 endfunction
 
