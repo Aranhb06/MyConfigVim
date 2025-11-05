@@ -1,15 +1,15 @@
 " =============================================================================
 "  PLUGINS
 " =============================================================================
-
 call plug#begin()
-
     " --- Barra de Estado y Temas ---
-    " ~Iconos 
+    " Iconos 
     Plug 'ryanoasis/vim-devicons'
+
     " Barra de estado
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
+
     " Tema
     Plug 'bluz71/vim-moonfly-colors'
 
@@ -41,7 +41,6 @@ call plug#end()
 " =============================================================================
 "  CONFIGURACIONES ESENCIALES
 " =============================================================================
-
 " --- Configuraciones Generales ---
 " Tecla lider
 let mapleader = ' ' 
@@ -153,14 +152,34 @@ endfunction
 " Coc explorer 
 nnoremap <silent> <leader>e :CocCommand explorer<CR>
 
+" --- Configuraciones de COMMENTARY 
+nmap c <Plug>Commentary
+nmap cc <Plug>CommentaryLine
+nmap cp cap
+xmap c <Plug>Commentary
+
 " --- Configuraciones de FZF ---
+" Configuraciones generales
 nnoremap <silent> <leader>l :Lines<CR>
 nnoremap <silent> <leader>f :Files<CR>
 nnoremap <silent> <leader>b :Buffers<CR>
 nnoremap <silent> <leader>h :History<CR>
 nnoremap <silent> <leader>c :Commands<CR>
 nnoremap <silent> <leader>m :Marks<CR>
-nnoremap <silent> rg  :Rg<CR>
+
+" Integracion con git
+nnoremap <silent> gc :Commits<CR>
+nnoremap <silent> gcB :BCommits<CR>
+nnoremap <silent> gf :GFiles<CR>
+nnoremap <silent> gf? :GFiles?<CR>
+ 
+" --- Configuraciones de FUGITIVE --- 
+nnoremap <silent> <leader>g :G<CR> 
+nnoremap <silent> gd :Gdiff<CR> 
+nnoremap <silent> gw :Gwrite<CR> 
+nnoremap <silent> gr :Gread<CR> 
+nnoremap <silent> grm :Gremove<CR> 
+nnoremap <silent> gm :Gremove<CR> 
 
 " --- Configuracioens de FLOATERM ---
 " Configuraciones generales
