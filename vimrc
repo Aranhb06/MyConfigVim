@@ -19,6 +19,7 @@ call plug#begin()
     Plug 'junegunn/fzf.vim'
     Plug 'tpope/vim-fugitive'
     Plug 'tpope/vim-commentary'
+    Plug 'markonm/traces.vim'
 
     " --- Autocompletado y LSP ---
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -209,7 +210,7 @@ nnoremap <silent> <C-t> :FloatermNew --cwd=<buffer-root><CR>
 tnoremap <silent> <C-t> <C-\><C-n>:FloatermNew --cwd=<buffer-root><CR>
 tnoremap <silent> <C-j> <C-\><C-n>:FloatermNext<CR>
 tnoremap <silent> <C-k> <C-\><C-n>:FloatermPrev<CR>
-nnoremap <silent> rt :FloatermKill!<CR>
+nnoremap <silent> rt :FloatermKill!<CR>                                          
 tnoremap <silent> rt <C-\><C-n>:call KillAndShowNext()<CR>
 
 " --- Configuraciones Markdown preview ---
