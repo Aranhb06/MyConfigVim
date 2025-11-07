@@ -110,6 +110,8 @@ let g:coc_global_extensions = [
         \ 'coc-sh', 
         \ 'coc-snippets', 
         \ 'coc-highlight',
+        \ 'coc-rls',
+        \ 'coc-docker',
         \ ]
  
 " Mappings Go To's
