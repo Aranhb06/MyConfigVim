@@ -166,6 +166,9 @@ nnoremap <silent> <leader>b :Buffers<CR>
 nnoremap <silent> <leader>h :History<CR>
 nnoremap <silent> <leader>c :Commands<CR>
 nnoremap <silent> <leader>m :Marks<CR>
+nnoremap <silent> <leader>W :Windows<CR>
+nnoremap <silent> <leader>C :Changes<CR>
+nnoremap <silent> <leader>j :Jumps<CR>
 
 " Integracion con git
 nnoremap <silent> gc :Commits<CR>
