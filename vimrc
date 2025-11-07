@@ -118,15 +118,14 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gR <Plug>(coc-references)
 
-" Mapeo para completar pulso visibles 
-inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
-inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+" Confirmar selección con Enter
+inoremap <expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
+" Navegar con Ctrl+j / Ctrl+k cuando el menú de coc esté visible
+inoremap <silent><expr> <C-j> coc#pum#visible() ? coc#pum#next(1) : "\<C-j>"
+inoremap <silent><expr> <C-k> coc#pum#visible() ? coc#pum#prev(1) : "\<C-k>"
 noremap <silent><expr> <c-space> coc#refresh()
+
 
 " Mapeo de teclas para diagnosticos 
 nnoremap <silent> d[ <Plug>(coc-diagnostic-prev)
@@ -160,6 +159,8 @@ nmap cp cap
 xmap c <Plug>Commentary
 
 " --- Configuraciones de FZF ---
+let $FZF_DEFAULT_OPTS = '--bind "j:down,k:up,ctrl-j:down,ctrl-k:up"'
+
 " Configuraciones generales
 nnoremap <silent> <leader>l :Lines<CR>
 nnoremap <silent> <leader>f :Files<CR>
