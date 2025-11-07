@@ -25,7 +25,7 @@ call plug#begin()
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
     " ---- Plugin para visualizar markdown ----
-    Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install' }
+    Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app && npm install' }
 
     " --- Plugin para ejecutar comando de forma asincrona --
     Plug 'skywind3000/asyncrun.vim'
@@ -50,6 +50,8 @@ let mapleader = ' '
 set encoding=utf-8
 
 " Otras configuraciones
+set mouse=a
+set clipboard=unnamedplus
 set nu
 set rnu
 set showmode
@@ -249,3 +251,4 @@ nnoremap <silent> <F5> :call SmartPreview()<CR>
 
 " Con Shift+F5, detiene el proceso en segundo plano (el live-server)
 nnoremap <silent> <S-F5> :AsyncStop<CR>
+  

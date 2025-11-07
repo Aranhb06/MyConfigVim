@@ -26,7 +26,7 @@ Antes de instalar, asegúrate de actualizar los repositorios de tu sistema.
 #### En Debian / Ubuntu / Linux Mint
 
 ```bash
-sudo apt update && sudo apt install vim
+sudo apt update && sudo apt install vim-gtk3
 ```
 
 #### En Fedora
@@ -38,13 +38,13 @@ sudo dnf install vim-enhanced
 #### En Arch / Manjaro
 
 ```bash
-sudo pacman -S vim
-```
+sudo pacman -S vim-gtk3
+``
 
 #### En OpenSUSE
 
 ```bash
-sudo zypper install vim
+sudo zypper install vim-gtk3 
 ```
 
 #### En CentOS / RHEL
