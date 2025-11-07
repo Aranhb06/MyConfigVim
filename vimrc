@@ -113,7 +113,7 @@ let g:coc_global_extensions = [
         \ ]
  
 " Mappings Go To's
-nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gD <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gR <Plug>(coc-references)
@@ -159,8 +159,6 @@ nmap cp cap
 xmap c <Plug>Commentary
 
 " --- Configuraciones de FZF ---
-let $FZF_DEFAULT_OPTS = '--bind "j:down,k:up,ctrl-j:down,ctrl-k:up"'
-
 " Configuraciones generales
 nnoremap <silent> <leader>l :Lines<CR>
 nnoremap <silent> <leader>f :Files<CR>
