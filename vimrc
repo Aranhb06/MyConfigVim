@@ -122,8 +122,9 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gR <Plug>(coc-references)
 
-" Confirmar selección con Enter
-inoremap <expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+" Confirmar selección con Tab 
+inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#pum#confirm() : "\<Tab>"
+inoremap <silent> <S-Tab> <Tab> 
 
 " Navegar con Ctrl+j / Ctrl+k cuando el menú de coc esté visible
 inoremap <silent><expr> <C-j> coc#pum#visible() ? coc#pum#next(1) : "\<C-j>"
@@ -153,7 +154,7 @@ function! ShowDocumentation()
   endif
 endfunction
 
-" Coc explorer 
+" --- Coc explorer ---
 nnoremap <silent> <leader>e :CocCommand explorer<CR>
 
 " --- Configuraciones de COMMENTARY 
@@ -251,4 +252,3 @@ nnoremap <silent> <F5> :call SmartPreview()<CR>
 
 " Con Shift+F5, detiene el proceso en segundo plano (el live-server)
 nnoremap <silent> <S-F5> :AsyncStop<CR>
-  

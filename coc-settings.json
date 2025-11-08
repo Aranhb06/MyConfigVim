@@ -33,7 +33,6 @@
     "value": " [V] Value",
     "enumMember": " [EM] Enum Member"
   },
-
   "explorer.file.showHiddenFiles": true,
   "explorer.icon.enableVimDevicons": true,
   "explorer.icon.enableNerdfont": true,
