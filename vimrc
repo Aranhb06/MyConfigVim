@@ -122,15 +122,17 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gR <Plug>(coc-references)
 
-" Confirmar selección con Tab 
-inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#pum#confirm() : "\<Tab>"
-inoremap <silent> <S-Tab> <Tab> 
+" Confirmar selección con Enter 
+inoremap <expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
 " Navegar con Ctrl+j / Ctrl+k cuando el menú de coc esté visible
 inoremap <silent><expr> <C-j> coc#pum#visible() ? coc#pum#next(1) : "\<C-j>"
 inoremap <silent><expr> <C-k> coc#pum#visible() ? coc#pum#prev(1) : "\<C-k>"
 noremap <silent><expr> <c-space> coc#refresh()
 
+" Navegar entre campos de un snippets
+let g:coc_snippet_next = '<Tab>'
+let g:coc_snippet_prev = '<S-Tab>'
 
 " Mapeo de teclas para diagnosticos 
 nnoremap <silent> d[ <Plug>(coc-diagnostic-prev)
